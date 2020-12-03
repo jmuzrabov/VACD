@@ -1,0 +1,44 @@
+// "main": "yd.less"
+.noUi-target {
+	margin: 12px 0 30px 0;
+	width: ~"calc(100% - 15px)";
+	.noUi-handle {
+		width: 20px;
+		height: 25px;
+		&::before {
+			height: 50%;
+			left: ~'calc(50% - 2px)';
+			top: 50%;
+			transform: translate(-50%,-50%);
+		}
+		&::after {
+			height: 50%;
+			left: ~'calc(50% + 2px)';
+			top: 50%;
+			transform: translate(-50%,-50%);
+		}
+	}
+	.noUi-tooltip {
+		background: none;
+		border: none;
+	}
+	&.noUi-horizontal {
+		height: 16px;
+		.noUi-tooltip {
+			bottom: auto;
+		}
+	}
+	.noUi-connect {
+		background: @c-info-l;
+	}
+	> input:invalid {
+		+ .noUi-base {
+			box-shadow: 0 0 2px 1px @c-red;
+		}
+	}
+	> input:disabled {
+		+ .noUi-base {
+			cursor: not-allowed;
+		}
+	}
+}

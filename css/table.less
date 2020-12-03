@@ -1,0 +1,66 @@
+// "main": "yd.less"
+.table {
+    color: inherit;
+}
+th.sortable {
+    cursor: pointer;
+    white-space: nowrap;
+    &::after {
+        margin-left: 6px;
+        content: url('../../icons/mdi-sort-ascending.svg?color=%23272c33');
+        display: inline-block;
+        vertical-align: text-top;
+        width: 18px;
+    }
+    &.active::after {
+        color: @c-brand;
+        content: url('../../icons/mdi-sort-ascending.svg?color=%23eb6608');
+    }
+    &.desc::after {
+        content: url('../../icons/mdi-sort-descending.svg?color=%23272c33');
+    }
+    &.active.desc::after {
+        content: url('../../icons/mdi-sort-descending.svg?color=%23eb6608');
+    }
+}
+.table-striped tbody tr td .table,
+.table-striped tbody tr td .table tr {
+    background-color: transparent;
+    &:first-child {
+        > td, th {
+            border-top: none;
+        }
+    }
+}
+.table {
+    tr[data-toggle] {
+        & ~ .hidden.active {
+            background: #fff;
+            td {
+                padding-top: .25rem;
+                padding-bottom: .25rem;
+            }
+        }
+    }
+    &.usersinslot {
+        tbody > tr:nth-child(4n),
+        tbody > tr:nth-child(4n+3) {
+            background: rgba(0,0,0,.05);
+        }
+    }
+}
+thead.truncate th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+tr.border-bottom {
+    > td {
+        border-bottom: 1px solid @c-brand2;
+    }
+}
+
+table.csv-import {
+    .ellipsis {
+        max-width: 160px;
+    }
+}

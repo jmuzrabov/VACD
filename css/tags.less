@@ -1,0 +1,41 @@
+// "main": "yd.less"
+.tag {
+    padding: .6rem;
+    margin: .2rem;
+    color: #fff;
+    &:hover {
+        color: #fff;
+    }
+    &.c-0 { background-color: @c-gray; }
+    &.c-1001 { background-color: @c-tag-0; }
+    &.c-1002 { background-color: @c-tag-1; }
+    &.c-1003 { background-color: @c-tag-2; }
+    &.c-1004 { background-color: @c-tag-3; }
+    &.c-1005 { background-color: @c-tag-4; }
+    &.c-1006 { background-color: @c-tag-5; }
+    &.c-1007 { background-color: @c-tag-6; }
+    &.c-1008 { background-color: @c-tag-7; }
+    &.c-1009 { background-color: @c-tag-8; }
+    > .iconify {
+        vertical-align: text-bottom !important;
+        &[data-icon="mdi-close-circle"] {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background-color: #fff;
+            border-radius: 50%;
+            color: @c-red;
+        }
+    }
+    input {
+        background-color: rgba(255,255,255,.2);
+        border-bottom-color: #fff !important;
+        border-top: none;
+        border-right: none;
+        color: #fff;
+        &:focus {
+            box-shadow: none;
+            outline: none;
+        }
+    }
+}

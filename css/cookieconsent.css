@@ -1,0 +1,27 @@
+// "main": "yd.less"
+.cookieconsent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background-color: #fff;
+    box-shadow: 0 0 2px 0px rgba(0,0,0,.25);
+    transform: translate(0,100%);
+    transition: transform .2s ease-in-out;
+    z-index: 99;
+
+
+
+}
+.cookieconsent .active {
+    transform: translate(0,0);
+}
+.cookieconsent p,
+.cookieconsent .button {
+    margin: 0;
+}
+ .cookieconsent> .row { width: 100%; }

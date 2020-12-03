@@ -1,0 +1,94 @@
+// "main": "yd.less"
+@keyframes progressing {
+	from	{ width: 0; }
+	to		{ width: 100%; }
+}
+
+.progress {
+	width: 100%;
+	height: 2px;
+	position: relative;
+	.progress-bar {
+		width: 0;
+		height: 100%;
+		animation-name: progressing;
+		animation-timing-function: linear;
+		&[class*="booked-"] {
+			background: linear-gradient(-180deg, @c-yellow-red 0%, @c-yellow 50%, @c-green 100%);
+			background-position: 0 0;
+			background-size: 100% 16px * 2 * 10; // y = bar height * buffer * steps
+		}
+		&.booked-0,
+		&[class*="booked-0.0"] { background-position-y: 16px; }
+		&[class*="booked-0.1"] { background-position-y: 16px; }
+		&[class*="booked-0.2"] { background-position-y: 16px * 4; }
+		&[class*="booked-0.3"] { background-position-y: 16px * 6; }
+		&[class*="booked-0.4"] { background-position-y: 16px * 8; }
+		&[class*="booked-0.5"] { background-position-y: 16px * 10; }
+		&[class*="booked-0.6"] { background-position-y: 16px * 12; }
+		&[class*="booked-0.7"] { background-position-y: 16px * 14; }
+		&[class*="booked-0.8"] { background-position-y: 16px * 16; }
+		&[class*="booked-0.9"] { background-position-y: 16px * 18; }
+		&[class*="booked-1"] { background-position-y: 16px * 20; }
+	}
+	&.no-bg {
+		background-color: transparent;
+	}
+	&[class*="rainbow"] {
+		height: 12px;
+		margin-top: 15px;
+		margin-bottom: 25px;
+		overflow: visible;
+		> span {
+			// color: @c-info;
+			font-weight: bold;
+			position: absolute;
+			top: ~"calc(100% + 5px)";
+			transform: translateX(-50%);
+			white-space: nowrap;
+			> span::after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: -100%;
+				left: ~"calc(50% - 1px)";
+				background: currentColor;
+				height:100%;
+				width: 2px;
+			}
+			&:nth-child(even) {
+				top: ~"calc(-100% - 10px)";
+				> span::after {
+					top: 100%;
+				}
+			}
+			&[style*="left: 100%"]{
+				transform: translateX(-100%);
+				> span::after {
+					left: ~"calc(100% - 3px)";
+				}
+			}
+			&[style*="left: 0%;"]{
+				transform: translateX(0);
+				> span::after {
+					left: 3px;
+				}
+			}
+			&:first-child {
+				top: ~"calc(200% + 10px)";
+				span::after {
+					height: 150%;
+					top: -150%;
+				}
+			}
+		}
+	}
+}
+
+.progressloop(@i) when (@i > 0) {
+	.progressloop((@i - 5));
+	.running-@{i} {
+		animation-duration: ~"@{i}s";
+	}
+}
+.progressloop(50);

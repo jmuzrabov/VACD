@@ -1,0 +1,47 @@
+// "main": "yd.less"
+h1 {
+	// color: @c-brand2;
+	font-size: 2em;
+	margin-bottom: 1.5rem;
+	font-weight: 300;
+	line-height: 1.4286;
+}
+h2 {
+	// color: @c-brand2;
+	font-size: 1.75em;
+	margin-bottom: 1.4rem;
+	font-weight: 300;
+	line-height: 1.4286;
+}
+h3 {
+	color: #244669;
+	font-size: 1.5em;
+	margin-bottom: 1rem;
+	font-weight: 300;
+	line-height: 1.4286;
+}
+h4 {
+	// color: @c-brand2;
+	font-size: 1.25em;
+	margin-bottom: 1.2rem;
+	line-height: 1.4286;
+}
+h5 {
+	// color: @c-brand2;
+	font-size: 1.1em;
+	margin-bottom: 1rem;
+	line-height: 1.4286;
+}
+h6 {
+	// color: @c-brand2;
+	font-size: 1em;
+	margin-bottom: .8rem;
+	line-height: 1.4286;
+}
+
+// h1, h2, h3, h4, h5, h6 {
+// 	> i {
+// 		width: 35px;
+// 		font-size: .75em;
+// 	}
+// }

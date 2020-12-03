@@ -1,0 +1,106 @@
+// "main": "yd.less"
+@keyframes swal2-show {
+  0% { transform: scale(0.7); }
+  100% { transform: scale(1); }
+}
+.swal2-popup {
+	&.swal2-show {
+		animation: swal2-show 0.3s;
+	}
+    &.swal2-toast {
+        padding: 1em;
+        max-width: 420px;
+        .swal2-close {
+            position: absolute;
+            width: 1.2em;
+            height: 1.2em;
+            line-height: 1.2;
+        }
+    }
+	.swal2-content {
+		font-size: 14px;
+		color: inherit;
+		line-height: inherit;
+	}
+	.swal2-icon {
+		width: 3em;
+		height: 3em;
+		line-height: 3em;
+		// margin: 1em auto;
+        border: none;
+        .swal2-icon-content {
+            font-size: 2em;
+        }
+		&.swal2-error {
+			color: @c-red;
+			[class^="swal2-x-mark-line"] {
+				top: 50%;
+				left: 50%;
+				right: auto;
+				width: 50%;
+				height: .25em;
+				background-color: @c-red;
+				&[class$="left"] {
+					transform: translate(-50%,-0.125em) rotate(45deg);
+				}
+				&[class$="right"] {
+					transform: translate(-50%,-0.125em) rotate(-45deg);
+				}
+			}
+		}
+		&.swal2-warning {
+			color: @c-yellow-red;
+		}
+		&.swal2-info {
+			border-color: @c-info;
+			color: @c-info;
+		}
+		&.swal2-success {
+			color: @c-green;
+			[class^="swal2-success-line"] {
+				height: .25em;
+				background-color: @c-green;
+				&[class$="tip"] {
+					top: 50%;
+					left: 50%;
+					right: 50%;
+					width: 1em;
+					transform: translate(-100%,0) rotate(45deg);
+					animation: none;
+				}
+				&[class$="long"] {
+					top: 50%;
+					left: .75em;
+					width: 1.5em;
+					transform: translate(.25em,-.25em) rotate(-45deg);
+					animation: none;
+				}
+			}
+			.swal2-success-ring {
+				border-color: @c-green;
+			}
+		}
+	}
+
+	.swal2-icon-text {
+		font-size: 2em;
+	}
+	.swal2-animate-error-icon {
+		animation: none;
+		.swal2-x-mark {
+			-webkit-animation: none;
+			animation: none;
+		}
+	}
+	#swal2-content {
+		text-align: left;
+	}
+	.swal2-footer {
+		border: none;
+	}
+    .swal2-actions {
+        button + button {
+            margin-left: 1rem;
+        }
+    }
+}

@@ -1,0 +1,134 @@
+// "main": "yd.less"
+.abscenter {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.ellipsis {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	transition: all .5s ease;
+}
+.text-wrap {
+    white-space: normal !important;
+}
+
+.hidden:not(.active) {
+    display: none !important;
+}
+.fadeout {
+	transition: opacity .2s ease-out;
+	&:not(.active) {
+		opacity: .25;
+	}
+}
+
+.yoummday-visual {
+	background-image: url('data:image/svg+xml;base64,PHN2ZyBpZD0iRWJlbmVfMSIgZGF0YS1uYW1lPSJFYmVuZSAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjIuNDIgMTYyLjQyIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlplaWNoZW5mbMOkY2hlIDE8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTgxLjIxLDBhODEuMjEsODEuMjEsMCwxLDAsODEuMjEsODEuMjFBODEuMjEsODEuMjEsMCwwLDAsODEuMjEsMGgwbTAsMTQ5LjE5YTY4LDY4LDAsMSwxLDY4LTY4aDBjMCwxLjQyLS4wNiwyLjgzLS4xNSw0LjI0LTEzLjExLDE0Ljc5LTMxLjc0LDI1LjczLTUxLjUxLDMwLjQ5di0xLjE5YTYuNjgsNi42OCwwLDAsMC02LjY4LTYuNjhINzFhNi42OCw2LjY4LDAsMCwwLTYuNjgsNi42OGgwVjEyOUE2LjY4LDYuNjgsMCwwLDAsNzEsMTM1LjY0SDkwLjg2QTYuNjgsNi42OCwwLDAsMCw5Ny41NCwxMjl2LTIuNDNhOTQuNzYsOTQuNzYsMCwwLDAsNTAtMzAuMzMsNjguMSw2OC4xLDAsMCwxLTY2LjMsNTMiLz48L3N2Zz4=');
+	background-color: @c-brand;
+	background-size: 90% !important;
+	background-repeat: no-repeat;
+}
+
+.rainbow-green2red {
+	&.badge {
+		background-size: 2000% 100%;
+	}
+	background-size: 100%;
+	background: linear-gradient(-90deg, @c-yellow-red 0%, @c-yellow 50%, @c-green 100%);
+}
+.rainbow-red2green {
+	&.badge {
+		background-size: 2000% 100%;
+	}
+	background-size: 100%;
+	background: linear-gradient(90deg, @c-yellow-red 0%, @c-yellow 50%, @c-green 100%);
+}
+.rainbow-green2red2green {
+	background-size: 100%;
+	background: linear-gradient(90deg, @c-green 0%, @c-yellow 25%, @c-yellow-red 50%, @c-yellow 75%, @c-green 100%);
+}
+.rainbow-red2green2red {
+	background-size: 100%;
+	background: linear-gradient(90deg, @c-yellow-red 0%, @c-yellow 25%, @c-green 50%, @c-yellow 75%, @c-yellow-red 100%);
+}
+
+.csv(@delimiter:', ', @margin:0) {
+	&:not(:empty) + :not(:empty) {
+		&::before {
+			margin: 0 @margin 0 @margin;
+			content: @delimiter;
+		}
+	}
+}
+.csv { .csv(', ') }
+
+.nth-child-loop(@stop, @prop, @step, @start: 1) when (@start =< @stop) {
+	&:nth-child(@{start}) {
+		@{prop}: (@start - 1) * @step;
+	}
+	.nth-child-loop(@stop,@prop,@step, (@start + 1));
+}
+.nth-type-loop(@stop, @prop, @step, @start: 1) when (@start =< @stop) {
+	&:nth-of-type(@{start}) {
+		@{prop}: (@start - 1) * @step;
+	}
+	.nth-type-loop(@stop,@prop,@step, (@start + 1));
+}
+
+.aspect-ratio(@width, @height) {
+	display: block;
+	position: relative;
+	&::after {
+		display: block;
+		content: '';
+		width: 100%;
+		padding-top: (@height / @width) * 100% !important;
+	}
+	> * {
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-size: cover;
+		background-position: 50% 50%;
+	}
+}
+
+.squared {
+	.aspect-ratio(1, 1);
+}
+
+.grabbable {
+	cursor: move;
+	cursor:-webkit-grab;
+	cursor:-moz-grab;
+	cursor: grab;
+	&:active {
+		cursor: move;
+		cursor:-webkit-grabbing;
+		cursor:-moz-grabbing;
+		cursor: grabbing;
+	}
+}
+
+.bg-brand-orange {
+	background: @c-brand;
+}
+.bg-brand-orange-gradient {
+	background: @c-brand;
+	background: linear-gradient(45deg, @c-brand-start 0%, @c-brand  100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+.bg-brand-lightblue {
+	background: @c-brand3;
+}

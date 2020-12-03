@@ -1,0 +1,65 @@
+// "main": "yd.less"
+.table {
+    color: inherit;
+}
+th.sortable {
+    cursor: pointer;
+    white-space: nowrap;
+}
+th.sortable::after {
+    margin-left: 6px;
+    content: url('../../icons/mdi-sort-ascending.svg?color=%23272c33');
+    display: inline-block;
+    vertical-align: text-top;
+    width: 18px;
+}
+th.sortable .active::after {
+    color: @c-brand;
+    content: url('../../icons/mdi-sort-ascending.svg?color=%23eb6608');
+}
+th.sortable .desc::after {
+    content: url('../../icons/mdi-sort-descending.svg?color=%23272c33');
+}
+th.sortable .active.desc::after {
+    content: url('../../icons/mdi-sort-descending.svg?color=%23eb6608');
+}
+
+.table-striped tbody tr td .table,
+.table-striped tbody tr td .table tr {
+    background-color: transparent;
+}
+
+.table-striped tbody tr td .table,
+.table-striped tbody tr td .table tr:first-child>td, th {
+    border-top: none;
+}
+
+.table tr[data-toggle] ~ .hidden.active {
+    background: #fff;
+
+}
+.table tr[data-toggle] ~ .hidden.active td {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+}
+
+.table.usersinslot tbody > tr:nth-child(4n),
+.table.usersinslot tbody > tr:nth-child(4n+3) {
+    background: rgba(0,0,0,.05);
+}
+
+
+thead.truncate th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+tr.border-bottom> td {
+    border-bottom: 1px solid @c-brand2;
+}
+
+table.csv-import .ellipsis {
+    max-width: 160px;
+}
+.table tbody .fs-10{
+  font-size: 10px;
+}

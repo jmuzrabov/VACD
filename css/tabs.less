@@ -1,0 +1,163 @@
+// "main": "yd.less"
+.tab {
+	overflow: hidden;
+	height: 0;
+	width: 100%;
+	padding: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+input:checked {
+	~ .tab {
+		height: auto;
+		overflow: visible;
+		opacity: 1;
+		transition: opacity .5s ease-out;
+		pointer-events: auto;
+	}
+	~ .tab ~ .tab {
+		overflow: hidden;
+		height: 0;
+		opacity: 0;
+	}
+}
+input:not(:checked) {
+	~ .tab .tab {
+	    pointer-events: none;
+	}
+}
+
+.tabs {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	display: flex;
+	flex-wrap: wrap;
+	> input {
+		display: none;
+	}
+	[for^="tabs"]:not(.btn) {
+		background: rgba(255,255,255,.7);
+		transition: background .2s ease;
+		order: 1;
+		cursor: pointer;
+		padding: 0.8em 0.6em;
+		text-align: center;
+		margin: 0 1px 2px;
+		border-bottom: 4px solid transparent;
+		flex: 1 1 auto;
+		cursor: pointer;
+		transition: border-color .2s ease;
+		color: inherit;
+		.badge {
+			margin: 0 5px;
+			+ .badge {
+				margin-left: -3px;
+			}
+		}
+		&:hover {
+			border-color: c-info-l;
+			background: rgba(255,255,255,.9);
+		}
+	}
+	> .pagination label {
+		margin-right: 0;
+		margin-left: 0;
+		padding: 0;
+	}
+	.tab {
+		order: 2;
+	}
+	input:checked + [for^="tabs"] {
+		border-color: @c-info-l;
+		background: #fff;
+		& + .tab {
+			padding: 20px 0;
+		}
+	}
+	input:disabled + [for^="tabs"] {
+		cursor: default;
+		opacity: .75;
+	}
+	&.horizontal {
+		[for^="tabs"] {
+			text-align: left;
+			margin: 0 0 5px;
+			border-bottom: none;
+			border-right: 15px solid transparent;
+			border-left: 5px solid transparent;
+			padding-left: 15px;
+			&.unread {
+				font-weight: normal;
+				border-left-color: @c-info;
+			}
+			&.active {
+				background: #fff;
+				border-right-color: @c-info-l;
+				border-left-color: transparent;
+			}
+		}
+	}
+	&.steps {
+		@color-default: escape(@c-brand2);
+		@color-complete: escape(@c-green);
+		@color-incomplete: escape(@c-yellow-red);
+		> [for^="tabs"] {
+			position: relative;
+			flex: 1 1 0;
+			background-color: transparent;
+			color: fadeout(@c-brand2, 25%);
+			padding-top: 35px;
+			// transition: all .2s ease;
+			&::before {
+				display: block;
+				width: 30px;
+				position: absolute;
+				top: -10px;
+				left: 50%;
+				transform: translate(-50%,0);
+				content: ~'url(../../icons/mdi-radiobox-blank.svg?color=@{color-default})';
+			}
+			&.step-complete::before {
+				content: ~'url(../../icons/mdi-check-circle-outline.svg?color=@{color-complete})';
+			}
+			&.step-incomplete::before {
+				content: ~'url(../../icons/mdi-radiobox-blank.svg?color=@{color-incomplete})';
+			}
+			&::after {
+				content: '';
+				position: absolute;
+				top: 5px;
+				right: 0;
+				display: block;
+				width: 50%;
+				height: 0;
+				border-top: 1px dashed @c-brand2;
+				transform: translate(50%,0);
+			}
+			&:last-of-type {
+				&::after {
+					border: none;
+				}
+			}
+			&:hover {
+				background: transparent;
+			}
+		}
+		input:checked + [for^="tabs"] {
+			background-color: #fff;
+			background-color: transparent;
+			color: @c-brand2;
+			font-weight: 450;
+			border-color: transparent;
+			&::before {
+				content: ~'url(../../icons/mdi-radiobox-marked.svg?color=@{color-default})';
+			}
+			&.step-complete::before {
+				content: ~'url(../../icons/mdi-check-circle.svg?color=@{color-complete})';
+			}
+			&.step-incomplete::before {
+				content: ~'url(../../icons/mdi-radiobox-marked.svg?color=@{color-incomplete})';
+			}
+		}
+	}
+}

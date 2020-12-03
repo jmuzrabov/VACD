@@ -1,0 +1,34 @@
+// "main": "yd.less"
+.newsteaser {
+	width: 380px;
+}
+.news .thumb {
+	margin: 0;
+}
+.news .meta {
+	margin: 0 0 10px;
+	font-size: .8em;
+	opacity: .8;
+}
+.news .document {
+	display: flex;
+	align-items: center;
+}
+.news .document .iconify {
+	font-size: 1.5em;
+	margin-right: 5px;
+}
+.news .system .thumb {
+	.yoummday-visual;
+}
+.news .newsform .meta {
+	padding-left: 3px;
+}
+.news .newsform .document {
+	margin: 15px 0;
+}
+.news .newsform .upload {
+	margin: 15px 0;
+	width: 250px;
+}
+

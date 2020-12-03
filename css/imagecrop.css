@@ -1,0 +1,68 @@
+// "main": "yd.less"
+.croparea {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    width: 70vmin;
+    height: 70vmin;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 0 100vw fadeout(#000, 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+
+}
+.croparea:not(:empty) {
+    opacity: 1;
+    pointer-events: auto;
+}
+.croparea img {
+    max-width: 100%;
+}
+.croparea .crop-action {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: #fff;
+    padding: 15px 0;
+
+}
+.croparea .crop-action> * {
+    margin: 0 5px;
+}
+.croppable {
+    position: relative;
+
+}
+.croppable .crop-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-color: #f1f2f7;
+    border: 2px dashed #fff;
+    overflow: hidden;
+    pointer-events: none;
+
+}
+.croppable .crop-preview:not(.active) > img {
+    display: none !important;
+}
+.croppable .crop-action {
+    position: absolute;
+    bottom: -10px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    transform: translate(0,100%);
+
+}
+.croppable .crop-action * {
+    margin: 0 5px;
+}
+.croppable.rounded-circle .crop-preview {
+    border-radius: 50%;
+}

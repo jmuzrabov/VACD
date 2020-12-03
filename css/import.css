@@ -1,0 +1,120 @@
+/* Navbar container */
+
+.my_navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+/* Links inside the navbar */
+
+.my_navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+/* The dropdown container */
+
+.my_dropdown {
+    float: left;
+    overflow: hidden;
+    width:100%;
+}
+/* Dropdown button */
+
+.my_dropdown .my_dropbtn {
+     width:100%;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    /* Important for vertical align on mobile phones */
+    margin: 0;
+    /* Important for vertical align on mobile phones */
+}
+/* Add a red background color to navbar links on hover */
+
+.my_navbar a:hover,
+.my_dropdown:hover .my_dropbtn {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .05);
+}
+/* Dropdown content (hidden by default) */
+
+.my_dropdown-content {
+    /* display: none; */
+    left: -9999em;
+    /* position: absolute; */
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    position: fixed;
+    width:auto;
+    margin-left: 7.5rem;
+    max-width:120px;
+    margin-top: -3rem;
+}
+/* Links inside the dropdown */
+
+.my_dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+/* Add a grey background color to dropdown links on hover */
+
+.my_dropdown-content a:hover {
+    background-color: #ddd;
+}
+/* Show the dropdown menu on hover */
+
+.my_dropdown:hover .my_dropdown-content {
+    /* display: block; */
+    left: auto;
+    width:100%;
+}
+
+.product-wrapper {
+    display: grid;
+    grid-template-rows: repeat(3);
+    grid-gap: 10px;
+    grid-auto-flow: column;
+    /*grid-auto-columns: 300px 100px;*/
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.larger_button {
+    padding: 10px;
+    margin: 10px;
+}
+
+.fieldset-auto-width {
+    display: inline-block;
+    font-size:small;
+}
+
+body {
+    margin: 8px;
+}
+#data_table .table td,
+#data_table .table th{
+   border-top:none;
+ }
+#data_table tbody tr td input{
+  margin-bottom: 0;
+}
+#data_table .table-striped tbody tr:nth-of-type(2n+1) {
+   background-color: transparent;
+}

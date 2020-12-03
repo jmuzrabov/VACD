@@ -1,0 +1,41 @@
+// "main": "yd.less"
+#webphoneLED {
+    display: inline-block;
+    line-height: .75;
+    > span {
+        margin-left: 5px;
+        display: inline-block;
+    }
+    > span > span {
+        display: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: @c-red;
+        &:first-child {
+            background-color: @c-yellow;
+        }
+        &:last-child {
+            background-color: @c-green;
+        }
+    }
+}
+:checked ~ #webphoneLED {
+    > span > span {
+        display: inline-block;
+        &:first-child,
+        &:last-child { display: none; }
+    }
+    &.on {
+        > span > span {
+            display: none;
+            &:last-child { display: inline-block; }
+        }
+    }
+    &.notcurrenttab {
+        > span > span {
+            visibility: hidden;
+            &:first-child { display: inline-block; }
+        }
+    }
+}

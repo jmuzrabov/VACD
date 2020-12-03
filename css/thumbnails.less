@@ -1,0 +1,78 @@
+// "main": "yd.less"
+[class*="thumb"] {
+	.thumb-loop(20px,120px);
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	margin:0 10px 0 0;
+	padding: 0;
+	background-size: cover;
+	background-position: 50% 50%;
+	vertical-align: middle;
+	&::after {
+		content:'';
+		display: block;
+		padding-bottom: 100%;
+		width: 40px;
+		pointer-events: none;
+	}
+	&::before {
+		.abscenter;
+	}
+	&.thumb-full {
+		width: 100%;
+	}
+	&.thumb-big {
+		width: 80px;
+		&::after {
+			width: 80px;
+		}
+	}
+	.flag-icon {
+		position: absolute;
+		bottom:0;
+		right: 0;
+	}
+	.iconify {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%) !important;
+	}
+	&[style*="url(http"] {
+		.iconify {
+			display: none;
+		}
+	}
+	&.managedby {
+		position: absolute;
+		right: -5px;
+		top: -5px;
+		margin: 0;
+		height: 24px;
+		width: 24px;
+		&.yd {
+			background: linear-gradient(to right, @c-brand, #e95c07);
+		}
+		img {
+			.abscenter;
+			height: 20px;
+			width: 20px ;
+		}
+	}
+}
+
+.thumb-loop(@start,@stop) when (@start =< @stop) {
+	&.thumb-@{start} {
+        width: @start;
+		margin-right: @start / 4;
+		> .iconify {
+			width: @start / 3;
+			height: @start / 3;
+		}
+		&::after {
+			width:@start;
+		}
+	}
+	.thumb-loop((@start + 5px),@stop);
+}

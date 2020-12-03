@@ -1,0 +1,84 @@
+// "out": "../assets/currentVersion/css/yd.css", "sourceMap": true, "compress": true
+
+// plugins import
+@import (inline) '_plug/bootstrap.min.css';
+@import (inline) '_plug/daterange.min.css';
+@import (inline) '_plug/sweetalert2.min.css';
+@import (inline) '_plug/nouislider.min.css';
+@import (inline) '_plug/fullcal.min.css';
+@import (inline) '_plug/cropper.min.css';
+
+// colors basic
+@c-brand: #eb6608;
+@c-brand-start: #cd470a;
+@c-brand2: #244669;
+@c-brand3: #4a96d2;
+@c-gray: #b5b5b5;
+
+// colors rating
+@c-rating: #ddd;
+@c-rating-active: #fec708;
+
+// colors tooltip
+@c-info: @c-brand2;
+@c-info-l: lighten(@c-info,60%);
+
+// colors traffic light
+@c-green: #73c63a;
+@c-green-yellow: #91c96a;
+@c-yellow: #e7b416;
+@c-yellow-red: #db7b2b;
+@c-red: #db5d2b;
+
+// colors tags -- same as highcharts
+@c-tag-0: #d35400;
+@c-tag-1: #2ecc71;
+@c-tag-2: #f1c40f;
+@c-tag-3: #514F78;
+@c-tag-4: #42A07B;
+@c-tag-5: #9B5E4A;
+@c-tag-6: #72727F;
+@c-tag-7: #1F949A;
+@c-tag-8: #82914E;
+
+// breakpoints bootstrap4
+@sm: ~'(min-width: 576px)';
+@md: ~'(min-width: 768px)';
+@lg: ~'(min-width: 992px)';
+@xl: ~'(min-width: 1200px)';
+
+// imports
+@import 'scheduler';
+@import 'mixins';
+@import 'basics';
+@import 'forms';
+@import 'skeleton';
+@import 'loader';
+@import 'buttons';
+@import 'messages';
+@import 'tooltip';
+@import 'headlines';
+@import 'tabs';
+@import 'progressbar';
+@import 'table';
+@import 'thumbnails';
+@import 'signing';
+@import 'chat';
+@import 'waveform';
+@import 'speedtest';
+@import 'flags';
+@import 'sweetalert';
+@import 'rangeslide';
+@import 'imagecrop';
+@import 'cards';
+@import 'dashboard';
+@import 'maps';
+@import 'ui';
+@import 'bell';
+@import 'whitelabel';
+@import 'webphone';
+@import 'cookieconsent';
+@import 'gamification';
+@import 'tags';
+
+@import (inline) 'sourcemap.css'; // workaround for atom's less compiler

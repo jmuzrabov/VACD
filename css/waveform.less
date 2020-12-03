@@ -1,0 +1,87 @@
+// "main": "yd.less"
+[data-waveform] {
+	cursor: pointer;
+	border-top: 1px solid rgba(0,0,0,.125);
+	display: inline-block;
+	width: 100%;
+	overflow-x: auto;
+	position: relative;
+	margin-bottom: 5px;
+	background: rgba(255,255,255,.4);
+	padding: 5px 0 0;
+	margin: 5px 0 0;
+	svg {
+		circle {
+			stroke-width:2;
+			stroke: @c-brand2;
+			fill: #fff;
+		}
+		line {
+			stroke: #8f6446;
+			&.agent {
+				stroke: @c-brand;
+			}
+			&.caller {
+				stroke: #ddd;
+			}
+		}
+	}
+	&.full {
+		svg {
+			line {
+				&.caller {
+					stroke: @c-info;
+				}
+			}
+		}
+	}
+	&::after {
+		.abscenter;
+		opacity: 0;
+		transition: opacity .3s ease;
+		height: 50px;
+		width: 50px;
+		display: block;
+		content: url('../../icons/mdi-play-circle-outline.svg?color=%230c5460');
+		background: rgba(255,255,255,.7);
+		background-size: 90%;
+		border-radius: 50%;
+	}
+	&:hover::after {
+		opacity: 1;
+	}
+
+	&.active {
+		&::after {
+			display:none;
+		}
+	}
+}
+.voicefile {
+	.controls {
+		background: rgba(0,0,0,.2);
+	}
+	.transcript {
+		max-height: 200px;
+		overflow-y: auto;
+		span {
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+			outline: 1px dotted rgba(0,0,0,.2);
+			transition: outline-color .15s ease;
+			margin-right: 10px;
+			padding: 0 3px;
+			line-height: 1.6;
+			&.played {
+				background: @c-info-l;
+			}
+			&.current {
+				background: @c-green-yellow;
+			}
+			&:hover {
+				outline-color: rgba(0,0,0,.6);
+			}
+		}
+	}
+}
