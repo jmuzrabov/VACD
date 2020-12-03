@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VACD</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" sizes="32x32" href="meta/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="meta/favicon-16x16.png">
+	<link rel="icon" type="image/png" href="meta/favicon.ico">
+	<link rel="mask-icon" href="meta/safari-pinned-tab.svg" color="#ce470a">
+	<link rel="stylesheet" type="text/css" href="css/_plug/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/forms.css">
+	<link rel="stylesheet" type="text/css" href="css/yd.css">
+</head>
+<body translate="no">
+	<article class="row no-gutters">
+		<aside class="col-auto">
+			<a href="/" class="logo bone"><div></div></a>
+			<footer>
+				<small>
+					currentVersion&nbsp;
+					<a href="#" onclick="location.reload(true)">
+						<img src="//assets.yoummday.com/icons/mdi-reload.svg?color=%23eb6608" style="width:16px;">
+					</a>
+				</small>
+			</footer>
+		</aside>
+		<div class="col row no-gutters flex-column">
+			<header class="bone text-center">
+				<div class="row">
+					<div class="col-xs-6 col-md-4">
+						<div class="row">
+							<div class="col-xs-6 col-md-4 p-2">
+								<!-- <span class="font-weight-bold text-uppercase"><label for="worktype_label">ANMELUNG</label></span> -->
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-8 p-2 text-left">
+								<span class="font-weight-bold text-uppercase "><label id="worktype_label"></label></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-8"></div>
+				</div>
+			</header>
+			<div class="col-md-3 offset-md-3 mt-5">
+				<form data-path="common/login" method="POST">
+					<h1>Anmeldung</h1>
+					<input type="email" name="email" placeholder="Email" id="email" required class="focusme">
+					<input type="password" name="password" placeholder="Password" id="password" required>
+					<!-- <p class="small"><i><a href="#" data-modal="modal/pwforgot">Passwort vergessen</a></i></p> -->
+					<input type="button" class="btn btn-primary" id="loginvacd" value="Anmelden" disabled >
+				</form>
+			</div>
+		</div>
+	</article>
+	<script src="js/jquery-3.5.1.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function (){
+
+			//Alle input Felder prüfen
+			function field_valid(fieldObject){
+				var val = $(fieldObject).val();
+				if(val === null){
+					return false;
+					console.log('Feld leer');
+				}else{
+					return true;
+					console.log(val);
+				}
+			}
+
+			//Email Feld prüfen
+			function email_val(fieldObject){
+				var val = $(fieldObject).val();
+				var filter = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+				if(filter.test(val)){
+					console.log('das ist ein Email');
+					return true;
+				}else{
+					console.log('das ist kein Email');
+					return false;
+				}
+			}
+
+			//Formular für senden vorbereiten
+			function form_send(){
+				var send = true;
+				$('body input').each(function(){
+					if($(this).val() === ''){
+						send = false;
+					}
+					if($(this).attr('type') === 'email'){
+						send = email_val(this);
+					}
+				});
+				return send;
+			}
+
+			//Fehlermeldung behandeln
+			function fehlermeldung(fehler){
+				// console.log(fehler);
+				if(fehler !== ''){
+					alert('Bitte Benutzername oder Password prüfen!');
+				}
+			}
+			//Formular prüfen
+			$('input').on('keyup',function(){
+				field_valid(this);
+				if(($(this).attr('type')) === 'email'){
+					email_val(this);
+				}
+				if(form_send()){$('#loginvacd').removeAttr('disabled');}
+			});
+
+			//Daten senden
+			$("#loginvacd").click(function() {
+					let email = $("#email");
+					let password = $("#password");
+					let loginData = {
+						email: email.val(),
+						password: password.val(),
+						purpose: 'vacd',
+						lang: 'de'
+					};
+					// console.log('email.val=>',email.val());
+					// console.log('password.val=>',password.val());
+					// console.log('loginData=>',loginData);
+
+							$.ajax({
+								type: 'POST',
+								contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+								dataType: "json",
+								data: loginData,
+								url: 'https://apiqa.yoummday.com/common/login',
+								success: function(responsedata){
+									console.log('responsedata=>',responsedata);
+									try{
+										window.localStorage.setItem("auth", responsedata.auth);
+										window.localStorage.setItem("name", responsedata.user.name);
+
+										console.log("AUTH Token: " + responsedata.auth);
+										$.ajax({
+											type: 'POST',
+											contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+											dataType: "json",
+											data:{
+												auth: localStorage.auth
+												// couser: localStorage.couserID
+													},
+											url: 'https://apiqa.yoummday.com/vacd/couserslist',
+											success: function(data){
+												delete data["authTime"];
+												delete data["success"];
+												console.log('data=>',data);
+												console.log('Object.keys(data.couserlist).length=>',Object.keys(data.couserlist).length);
+												console.log('Object.keys(data.couserlist)=>',Object.keys(data.couserlist));
+												let couserLenght = Object.keys(data.couserlist).length;
+												window.localStorage.setItem('couserLenght',couserLenght);
+												let fullaccess = '';
+												if(Object.keys(data).length > 0){
+													Object.keys(data).forEach(key =>{
+														console.log(Object.keys(data[key]));
+														if(data[key]){
+															Object.keys(data[key]).forEach(i =>{
+																console.log('data[key][i]=>',data[key][i].fullaccess);
+																window.localStorage.setItem('couserID',i);
+																window.localStorage.setItem('couserName',data[key][i].company);
+																fullaccess = data[key][i].fullaccess;
+															});
+														}
+
+													});
+												}
+												if(couserLenght === 1){
+														window.location.href = '/VACD/reteflow.html';
+														window.localStorage.setItem('fullaccess',fullaccess);
+												}else{
+													window.location.href = '/VACD/menu.html';
+												}
+
+
+
+
+											},//success
+											error: function(error){
+												console.log(error);
+											}
+										});//$.ajax
+
+
+									}catch(err){
+										fehlermeldung(err);
+									}
+
+								},
+								error: function(error){
+									console.log(error);
+								}
+							});//$.ajax
+							// $.ajax({
+							// 	type: 'POST',
+							// 	contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+							// 	dataType: "json",
+							// 	data: window.localStorage['auth'],
+							// 	url: 'https://apiqa.yoummday.com/vacd/couserlist',
+							// 	success: function(responsedata){
+							// 		console.log('responsedata=>',responsedata);
+							// 		// window.localStorage.setItem('couserlist',);
+							//
+							// 	},
+							// 	error: function(error){
+							// 		console.log(error);
+							// 	}
+							// });//$.ajax
+						// console.log (JSON.stringify(loginData));
+					});//$("#loginvacd").click
+
+			});//$(document).ready(function ()
+
+
+	</script>
+
+</body>
+</html>
