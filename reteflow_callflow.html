@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VACD</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" sizes="32x32" href="meta/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="meta/favicon-16x16.png">
+	<link rel="icon" type="image/png" href="meta/favicon.ico">
+	<link rel="mask-icon" href="meta/safari-pinned-tab.svg" color="#ce470a">
+	<link rel="stylesheet" type="text/css" href="css/_plug/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/forms.css">
+	<link rel="stylesheet" type="text/css" href="css/yd.css">
+	<link rel="stylesheet" type="text/css" href="css/buttons.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="./js/jq/jquery-ui.min.css">
+	<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
+</head>
+<body translate="no">
+	<article class="row no-gutters">
+		<aside class="col-auto">
+			<a href="/" class="logo bone"><div></div></a>
+			<nav class="bone mb-5" id="back"></nav>
+			<nav class="bone" id="nav">
+				<a href="reteflow_number.html" id="telNumber" >Nummer</a>
+				<a href="reteflow_callflow.html" id="callflow">Callflow</a>
+				<a href="reteflow_sound.html" id="sound">Sounds</a>
+			</nav>
+			<footer>
+				<nav class="bone">
+					<!-- <a href="#" id="test">TEST</a> -->
+					<!-- <a href="#" id="generator">Generate</a> -->
+				</nav>
+
+				<small  id="logout">
+					<a href="index.html">abmelden
+						<!-- <img src="//assets.yoummday.com/icons/mdi-reload.svg?color=%23eb6608" style="width:16px;"> -->
+					</a>
+				</small>
+			</footer>
+		</aside>
+		<div class="col row no-gutters flex-column">
+			<header class="bone text-center">
+				<div class="row">
+					<div class="container p-2">
+						<div class="row justify-content-between">
+					    <div class="col-4">
+					      <span class="font-weight-bold text-uppercase "><label id="custom" ></label></span>
+								<!-- <span class="iconify" data-icon="mdi:arrow-left-bold-circle-outline" data-inline="false"></span> -->
+					    </div>
+					    <div class="col-4">
+					      <span class="font-weight-bold text-uppercase" id="head"><label for="worktype_label" id="worktype_label"></label></span>
+					    </div>
+					  </div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-8"></div>
+				</div>
+			</header>
+			<div class="content col">
+
+				<!-- Editor und Anrufverlaufliste -->
+				<div class="row justify-content-around editorbox">
+
+					<!-- Leftsite / Editor -->
+					<div class="col-sm-6 col-md-9" id="leftSite">
+						<!-- Editor -->
+						<div class="card" id="ret">
+							<div class="card-body">
+								<div id="rete" class="card "></div>
+							</div>
+						</div>
+					</div>
+					<!-- Rightsite / Editor -->
+					<div class="card col-4 col-md-3 p-3" id="rightSite" >
+							<!-- Anrufverlaufliste und neue Grafikname-->
+							<div class="card-body justify-content-around">
+								<div class="col" id="divGRAFIKLIST">
+										<label for="grafikLIST1">Callflow</label>
+										<select id="grafikLIST1" class="grafikLIST1" name="grafikLIST1" >
+											<option value="#" selected>--</option>
+										</select>
+									</div><!-- divGRAFIKLIST-->
+								<div class="col" id="divGRAFIKNAME">
+												<label for="neueGRAFIKNAME">Callflowname:</label>
+												<input type="text" name="neueGRAFIKNAME" id="neueGRAFIKNAME" value=""/>
+												<p class="smallmsg"><small id="smallmsg"></small></p>
+												<input type="button" class="btn btn-small btn-primary mt-3 mb-3" id="save" value="speichern" />
+												<input type="button" class="button btn btn-primary" value="löschen" id="graphLOESCHEN">
+									</div><!-- divGRAFIKNAME-->
+								<div class="col" id="graphInfo">
+									<ul></ul>
+								</div>
+							</div>
+						</div>
+
+					<!-- Buttom Site -->
+					<div class="row" id="editorBtn">
+							<!-- Editor Buttons-->
+							<div id="buttons"></div>
+						</div>
+
+				</div>
+
+			</div>
+		</div>
+		<div class="modal d-none" tabindex="-1">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title alert-warning">ACHTUNG!</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p>Wollen Sie wirklich löschen?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">nein</button>
+		        <button type="button" class="btn btn-outline-primary" id="ja">ja</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</article>
+
+	<script src="./js/rete.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.6/vue.min.js"></script>
+	<script src="./js/vue-render-plugin.min.js"></script>
+	<script src="./js/connection-plugin.min.js"></script>
+	<script src="./js/alight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+	<script src="./js/context-menu-plugin.min.js"></script>
+	<script src="./js/area-plugin.min.js"></script>
+	<script src="./js/comment-plugin.min.js"></script>
+	<script src="./js/history-plugin.min.js"></script>
+	<script src="./js/connection-mastery-plugin.min.js"></script>
+	<script src="./js/jquery-3.5.1.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<script src="./js/jq/vendor/jquery.ui.widget.js"></script>
+	<script src="./js/jq/jquery.iframe-transport.js"></script>
+	<script src="./js/jq/jquery.fileupload.js"></script>
+	<script src="./js/dayjs.min.js"></script>
+	<script src="./js/jq/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+	function backendCall(funktionsname, successfunction) {
+		$.ajax({
+			type:'GET',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			dataType: 'json',
+			data: {
+							auth:localStorage.auth,
+							couser:localStorage.couserID
+						},
+			url: 'https://apiqa.yoummday.com/vacd/'+funktionsname,
+			success: function(result) {
+				if ("error" in result) {
+					if (result["error"] == "auth") {
+						alert("WRONG AUTH");
+					}
+
+					console.log(result["error"]);
+					return;
+				}
+				successfunction(result);
+			}
+				,
+			error: function (e) {
+				console.log(e);
+			}
+		});
+	}
+
+	function loadNumberContent() {
+
+		//Userdaten auflisten
+		backendCall("couserslist",function(result){
+			let span = document.createElement('span');
+			let timeLabel = $('#worktype_label');
+
+
+
+			let header = $('#custom');
+			let a = document.createElement('a');
+			let divBack = $('#back');
+			let aBack = document.createElement('a');
+
+			let backSpan = document.createElement('span');
+			backSpan.setAttribute('class','iconify');
+			backSpan.setAttribute('data-icon','mdi:arrow-left-bold-circle-outline');
+			backSpan.setAttribute('data-inline','false');
+			backSpan.setAttribute('data-width','20px');
+			backSpan.setAttribute('data-height','20px');
+			backSpan.setAttribute('style','color:#eb6608');
+			backSpan.setAttribute('style','margin-right:5px');
+			let backA = document.createElement('a');
+
+			if(window.localStorage.getItem('couserNAME')){
+
+				a.setAttribute('href','#');
+				a.appendChild(document.createTextNode(window.localStorage['couserNAME']));
+
+				backA.setAttribute('href','menu.html');
+				backA.appendChild(backSpan);
+
+			}else{
+				a.appendChild(document.createTextNode(window.localStorage['name']));
+				// a.appendChild(document.createTextNode('Firma hat keine Name'));
+			}
+				header.append(a);
+				header.append(backA);
+
+			let aMenu1 = $('#callflow');
+			let aMenu2 = $('#sound');
+			let couserLenght = window.localStorage['couserLenght'];
+			let fullaccess = window.localStorage['fullaccess'];
+
+			if(couserLenght > 1 || fullaccess === true){
+				aMenu1.removeClass('hidden');
+				aMenu2.removeClass('hidden')
+			}
+
+
+
+		});
+
+	}
+
+	$(document).ready(function(){
+
+		//#number Container anzeigen
+		loadNumberContent();
+		$('#callflow').click(loadNumberContent);
+
+
+			//Anrufverlaufliste/gespeicherte Grafik im Editor anzeigen
+			$.ajax({
+					type: 'GET',
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+					dataType: "json",
+					data:
+					{
+						auth: window.localStorage.getItem("auth"),
+						couser: window.localStorage.getItem("couserID")
+					},
+					url: 'https://apiqa.yoummday.com/vacd/graphlist',
+					success: function(result){
+						// console.log('graphObj=>',graphObj);
+						console.log('graphlist=>',result);
+						delete result["authTime"];
+						delete result["success"];
+
+						if(Object.keys(result).length > 0) {
+
+							Object.keys(result).forEach(key => {
+
+								if(Object.keys(result[key])){
+									Object.keys(result[key]).forEach(i => {
+										// console.log('result[key][i]=>',result[key][i]);
+										// console.log('result[key][i]["name"]=>',result[key][i]['name']);
+										$("#grafikLIST1").append('<option value='+ result[key][i]["id"] + '>' + result[key][i]["name"] + '</option>');
+										// $("#grafikLIST2").append('<option value='+ result[key][i]["id"] + '>' + result[key][i]["name"] + '</option>');
+									}//Object.keys
+
+								)}//if
+
+								//Anrufverlaufliste/gespeicherte Grafik im Editor anzeigen
+								$("#grafikLIST1").change(function(){
+
+									$('#grafikLIST1 option:selected').each(function(){
+
+										if(result[key]){
+
+											Object.keys(result[key]).forEach(i => {
+												if(i === this.value){
+
+												let graphObjID = result[key][i].id;
+												let graphObjNAME = result[key][i].name;
+												let graphObjJSON = result[key][i].json;
+												window.localStorage.setItem('graphObjID',graphObjID);
+												console.log(graphObjID);
+												let json = result[key][i].json;
+												$('#graphInfo ul').empty();
+												editor.fromJSON( JSON.parse(json));
+												// $('#graphInfo ul').append('<li>ID:<small><i> ' + graphObjID + '</i></small></li>' + '<li>Name:<small><i> ' + graphObjNAME + '</i></small></li>'+ '<li>JSON:<small><i> ' + graphObjJSON + '</i></small></li>');
+
+											}//if(i === this.value)
+											});//Object.keys(result[key]).forEach
+										}//if(result[key]
+
+
+									});//$('#grafikLIST option:selected')
+								});//$("#grafikLIST")
+
+
+
+							});//Object.keys(result)
+						}//if(Object.keys(result).length > 0)
+					},//success: function(result)
+					error: function(error){
+						console.log(error);
+					}
+				});//$.ajax
+
+
+			//Graph speichern
+			$("#save").click(function() {
+					let auth = window.localStorage['auth'];
+					let couser = window.localStorage['couserID'];
+					let graphdata = window.localStorage['savedEditor'];
+					let graphname = $("#neueGRAFIKNAME")[0].value;
+					console.log('auth=>',auth);
+					console.log('couser=>',couser);
+					console.log('graphdata=>',graphdata);
+					console.log('graphname=>',graphname);
+					// console.log(this);
+					if(graphname != ""){
+						$.ajax({
+								type: 'POST',
+								contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+								dataType: "json",
+								data: {
+									auth: window.localStorage.getItem("auth"),
+									couser: window.localStorage.getItem("couserID"),
+									name: graphname,
+									json: graphdata
+								},
+								url: 'https://apiqa.yoummday.com/vacd/submitgraph',
+								success: function(responsedata){
+									// if(responsedata['error'] ==)
+									console.log('responsedata=>',responsedata);
+									// to do: refresh grafikLIST on the nav leftside
+									location.reload();
+									//inputfeld leeren
+									$('#neueGRAFIKNAME')[0].value = '';
+									// console.log($('#neueGRAFIKNAME')[0].value);
+									// $("#submitmessage").fadeIn().fadeOut(2000);
+
+
+								},
+								error: function(error){
+									console.log(error);
+								}
+							});//$.ajax
+
+						} else{
+							$("#smallmsg")
+							.css("color", "red")
+							.text('Name is empty');
+						}
+					});
+
+			//Graph löschen
+			$('#graphLOESCHEN').click(function(){
+
+						let graphID = window.localStorage['graphObjID'];
+						console.log('graphID=>',graphID);
+						$.ajax({
+							type: 'POST',
+							contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+							dataType: "json",
+							data: {
+								auth:window.localStorage['auth'],
+								couser: window.localStorage['couserID'],
+								graphid:graphID
+							},
+								url: 'https://apiqa.yoummday.com/vacd/deletegraph',
+
+							success: function(data)
+							{
+								console.log(data);
+								console.log(data.error);
+								location.reload();
+								// if(data.error != "nograph" && data.error != "auth"){
+								// 	console.log('Erfolgreich gelöscht!');
+								// 	location.reload();
+								// }else{
+								// 	alert('FEHLER');
+								// 	console.log(data);
+								// }
+
+
+							},
+							error: function(error){
+								console.log(error);
+							}
+						});//$.ajax
+
+
+					});
+
+
+
+
+
+
+
+			//beim Abmelden, localStorage leeren
+			$('#logout a').click(function(){
+				localStorage.clear();
+			});
+
+		});//$(document).ready
+	</script>
+	<script id="rendered-js">
+
+		var numSocket = new Rete.Socket('Number value');
+
+		var VueTimeControl = {
+				props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+				template: '<input type="time" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
+				data() {
+					return {
+						value: 0 };
+
+				},
+				methods: {
+					change(e) {
+						this.value = e.target.value;
+						this.update();
+					},
+					update() {
+						if (this.ikey)
+						this.putData(this.ikey, this.value);
+						this.emitter.trigger('process');
+					} },
+
+				mounted() {
+					this.value = this.getData(this.ikey);
+				}
+			};
+
+		class TimeControl extends Rete.Control {
+
+				constructor(emitter, key, readonly) {
+					super(key);
+					this.component = VueTimeControl;
+					this.props = { emitter, ikey: key, readonly };
+				}
+
+				setValue(val) {
+					this.vueContext.value = val;
+				}
+			}
+
+		var VueDayControl = {
+					props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+					template: '<select :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop="">\
+				<option value="1" selected>Montag</option>\
+				<option value="2">Dienstag</option>\
+				<option value="3">Mittwoch</option>\
+				<option value="4">Donnerstag</option>\
+				<option value="5">Freitag</option>\
+				<option value="6">Samstag</option>\
+				<option value="0">Sonntag</option>\
+				</select>',
+					data() {
+						return {
+							value: 0 };
+
+					},
+					methods: {
+						change(e) {
+							this.value = e.target.value;
+							this.update();
+						},
+						update() {
+							if (this.ikey)
+							this.putData(this.ikey, this.value);
+							this.emitter.trigger('process');
+						} },
+
+					mounted() {
+						this.value = this.getData(this.ikey);
+					}
+				};
+
+		class DayControl extends Rete.Control {
+
+			constructor(emitter, key, readonly) {
+				super(key);
+				this.component = VueDayControl;
+				this.props = { emitter, ikey: key, readonly };
+			}
+
+			setValue(val) {
+				this.vueContext.value = val;
+			}
+		}
+
+		var VueNumControl = {
+			props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+			template: '<input type="tel" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
+			data() {
+				return {
+					value: 0 };
+
+			},
+			methods: {
+				change(e) {
+					this.value = +e.target.value;
+					this.update();
+				},
+				update() {
+					if (this.ikey)
+					this.putData(this.ikey, this.value);
+					this.emitter.trigger('process');
+				} },
+
+			mounted() {
+				this.value = this.getData(this.ikey);
+			} };
+
+		class NumControl extends Rete.Control {
+
+			constructor(emitter, key, readonly) {
+				super(key);
+				this.component = VueNumControl;
+				this.props = { emitter, ikey: key, readonly };
+			}
+
+			setValue(val) {
+				this.vueContext.value = val;
+			}}
+
+		var VueStringControl = {
+			props: ['readonly', 'emitter', 'skey', 'getData', 'putData'],
+			template: '<input type="text" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
+			data() {
+				return {
+					value: "None" };
+
+			},
+			methods: {
+				change(e) {
+					this.value = e.target.value;
+					this.update();
+				},
+				update() {
+					if (this.skey)
+					this.putData(this.skey, this.value);
+					this.emitter.trigger('process');
+				} },
+
+			mounted() {
+				this.value = this.getData(this.skey);
+			} };
+
+		class StringControl extends Rete.Control {
+
+			constructor(emitter, key, readonly) {
+				super(key);
+				this.component = VueStringControl;
+				this.props = { emitter, skey: key, readonly };
+			}
+
+			setValue(val) {
+				this.vueContext.value = val;
+			}}
+
+		class ProviderComponent extends Rete.Component {
+
+			constructor() {
+				super("Provider");
+			}
+
+			builder(node) {
+				var out1 = new Rete.Output('num', "Provider", numSocket, false);
+
+				// return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1); -->
+				return node.addOutput(out1);
+			}
+
+			worker(node, inputs, outputs) {
+				// outputs['num'] = node.data.num; -->
+			}
+
+			}
+
+
+			var VueRedirectControl ={
+				props:['readonly','emitter','ikey','getData','putData'],
+				template:'<select id="numlist" :readonly = "readonly" :value = "value" @input="change($event)" @dbclick.stop = "" @pointerdown.stop = "" @pointermove.stop = "">\
+				<option value="0" selected>-</option>\
+				</select>',
+				data(){
+					return{value:0};
+				},
+				methods:{
+					change(e){
+						this.value = e.target.value;
+						this.update();
+					},
+					update(){
+						if(this.ikey)
+						this.putData(this.ikey,this.value);
+						this.emitter.trigger('process');
+					}
+				},
+				mounted(){this.value = this.getData(this.ikey);}
+			};
+
+			class RedirectControl extends Rete.Control{
+				constructor(emitter,key,readonly){
+					super(key);
+					this.component = VueRedirectControl;
+					this.props = {emitter,ikey:key,readonly};
+				}
+				setValue(val){this.vueContext.value = val;}
+			}
+
+		class RedirectComponent extends Rete.Component {
+
+			constructor() {
+				super("Redirect");
+			}
+
+			builder(node) {
+				// var out1 = new Rete.Output('num', "Provider", numSocket); -->
+			var inp1 = new Rete.Input('num', "In", numSocket, true);
+			// node.addControl(new RedirectControl(this.editor, 'targetnumber'));
+				// return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1); -->
+			node.addControl(new NumControl(this.editor, 'targetnumber'));
+			node.addInput(inp1);
+				return node;
+			}
+
+			worker(node, inputs, outputs) {
+				//<!-- outputs['num'] = node.data.num; -->
+			}
+
+			}
+
+		class ForceRecordingComponent extends Rete.Component {
+			constructor() {
+				super("Force Recording");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+				// var inp2 = new Rete.Input('num2', "Number2", numSocket); -->
+				var out = new Rete.Output('num', "", numSocket, false);
+
+				return node.addInput(inp1).addOutput(out);
+
+			}
+
+			worker(node, inputs, outputs) {
+				// var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1; -->
+				// var n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2; -->
+				// var sum = n1 ;//+ n2; -->
+
+				// this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum); -->
+				// outputs['num'] = sum; -->
+			}}
+
+		class PromptUserComponent extends Rete.Component {
+			constructor() {
+				super("Prompt User");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+
+			for (var i=0;i< 10; i++){
+				node.addOutput(new Rete.Output('num'+i, ""+i, numSocket, false));
+			}
+
+				node.addControl(new StringControl(this.editor, 'path'));
+				return node.
+				addInput(inp1);
+			}
+
+			worker(node, inputs, outputs) {
+
+			}}
+
+		class WeekDayComponent extends Rete.Component {
+			constructor() {
+				super("Wochentag");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+				node.addControl(new DayControl(this.editor, 'weekdaystart'));
+				node.addControl(new DayControl(this.editor, 'weekdayend'));
+				node.addOutput(new Rete.Output('num1', "Richtiger Wochentag", numSocket, false));
+				node.addOutput(new Rete.Output('num2', "Falscher Wochentag", numSocket, false));
+				return node.
+				addInput(inp1);
+			}
+
+			worker(node, inputs, outputs) {
+
+			}}
+
+		class TimeComponent extends Rete.Component {
+			constructor() {
+				super("Uhrzeit");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+				node.addControl(new TimeControl(this.editor, 'timestart'));
+				node.addControl(new TimeControl(this.editor, 'timeend'));
+				node.addOutput(new Rete.Output('num1', "Richtige Uhrzeit", numSocket, false));
+				node.addOutput(new Rete.Output('num2', "Falsche Uhrzeit", numSocket, false));
+				return node.
+				addInput(inp1);
+			}
+
+			worker(node, inputs, outputs) {
+
+			}}
+
+		class TransferComponent extends Rete.Component {
+
+
+
+			  constructor() {
+			    super("Transfer");
+			  }
+
+
+
+			  builder(node) {
+			    // var out1 = new Rete.Output('num', "Provider", numSocket); -->
+			    var inp1 = new Rete.Input('num', "In", numSocket, true);
+			    // return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1); -->
+			    node.addControl(new NumControl(this.editor, 'targetnumber'));
+			    node.addInput(inp1);
+			    return node;
+			  }
+
+
+
+			  worker(node, inputs, outputs) {
+			    //<!-- outputs['num'] = node.data.num; -->
+			  }
+
+			  }
+
+			  class DurchwahlComponent extends Rete.Component {
+			  constructor() {
+			    super("Durchwahl");
+			  }
+
+
+
+			  builder(node) {
+			    var inp1 = new Rete.Input('num', "", numSocket, true);
+					node.addOutput(new Rete.Output('default', "Keine Nummer", numSocket, false));
+			    for (var i=0;i< 10; i++){
+			        node.addOutput(new Rete.Output('num'+i, ""+i, numSocket, false));
+			    }
+
+
+			    return node.
+			    addInput(inp1);
+			  }
+
+
+
+			  worker(node, inputs, outputs) {
+
+
+
+			  }}
+
+		var VueSoundControl ={
+			props:['readonly','emitter','ikey','getData','putData'],
+			template:'<select id="soundlist" :readonly = "readonly" :value = "value" @input="change($event)" @dbclick.stop = "" @pointerdown.stop = "" @pointermove.stop = "">\
+			<option value="0" selected>-</option>\
+			</select>',
+			data(){
+				return{value:0};
+			},
+			methods:{
+				change(e){
+					this.value = e.target.value;
+					this.update();
+				},
+				update(){
+					if(this.ikey)
+					this.putData(this.ikey,this.value);
+					this.emitter.trigger('process');
+				}
+			},
+			mounted(){this.value = this.getData(this.ikey);}
+		};
+
+		class SoundControl extends Rete.Control{
+			constructor(emitter,key,readonly){
+				super(key);
+				this.component = VueSoundControl;
+				this.props = {emitter,ikey:key,readonly};
+			}
+			setValue(val){this.vueContext.value = val;}
+		}
+		class SoundComponent extends Rete.Component {
+			constructor() {
+				super("Sounddatei");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+				node.addControl(new SoundControl(this.editor, 'path'));
+				node.addOutput(new Rete.Output('num', "", numSocket, false));
+				// node.addControl(new StringControl(this.editor, 'path'));
+				return node.
+				addInput(inp1);
+			}
+
+			worker(node, inputs, outputs) {
+
+			}}
+
+		class SplitComponent extends Rete.Component {
+			constructor() {
+				super("Verteiler");
+			}
+
+			builder(node) {
+				var inp1 = new Rete.Input('num', "", numSocket, true);
+
+				node.addOutput(new Rete.Output('num1', "", numSocket, false));
+				node.addOutput(new Rete.Output('num2', "", numSocket, false));
+
+				return node.
+				addInput(inp1);
+			}
+
+			worker(node, inputs, outputs) {
+
+			}}
+
+		var editor;
+
+		var components = [new ProviderComponent(), new ForceRecordingComponent(), new RedirectComponent(), new PromptUserComponent(), new WeekDayComponent(), new TimeComponent(), new SoundComponent(), new SplitComponent(), new TransferComponent(), new DurchwahlComponent()];
+		var targ = $("#buttons");
+		for (var i = 0; i < components.length; i++) {
+			var el = components[i];
+			targ.append('<input class="btn btn-outline-primary mb-3" type="button" name="' + i + '" value="' + el.name + '"/><br>');
+		}
+
+		$("#buttons input").click(async function(index) {
+			console.log(this);
+			var n1 = await components[this.name].createNode();
+			editor.addNode(n1);
+		});
+
+		(async () => {
+			var container = document.querySelector('#rete');
+
+			editor = new Rete.NodeEditor('vacd@0.1.0', container);
+			editor.use(ConnectionPlugin.default);
+			editor.use(VueRenderPlugin.default);
+			editor.use(ContextMenuPlugin.default);
+			editor.use(AreaPlugin);
+			editor.use(CommentPlugin.default);
+			editor.use(HistoryPlugin);
+			editor.use(ConnectionMasteryPlugin.default);
+
+			var engine = new Rete.Engine('vacd@0.1.0');
+
+			components.map(c => {
+				editor.register(c);
+				engine.register(c);
+			});
+
+			var n1 = await components[0].createNode({
+				num: 2
+			});
+			var n2 = await components[0].createNode({
+				num: 0
+			});
+			var add = await components[1].createNode();
+
+			n1.position = [0, 200];
+			//n2.position = [80, 400];-->
+			add.position = [200, 240];
+
+			//editor.addNode(n1);
+			//editor.addNode(n2);
+			//editor.addNode(add);
+
+			//editor.connect(n1.outputs.get('num'), add.inputs.get('num'));
+			//editor.connect(n2.outputs.get('num'), add.inputs.get('num2'));
+
+			editor.on('process nodecreated noderemoved connectioncreated connectionremoved nodetranslated', async (e) => {
+				console.log("process");
+				//<!--console.log(editor.toJSON());-- >
+				await engine.abort();
+				await engine.process(editor.toJSON());
+				window.localStorage.setItem('savedEditor', JSON.stringify(editor.toJSON()));
+
+			});
+
+			// var savedEditor = window.localStorage.getItem("savedEditor");
+			// if (savedEditor) {
+			// 	editor.fromJSON(JSON.parse(savedEditor));
+			// }
+
+			editor.trigger('process');
+			editor.view.resize();
+			AreaPlugin.zoomAt(editor);
+		})();
+
+		$("#generator").click(function() {
+			$("#out").text(JSON.stringify(editor.toJSON()));
+			for (var i = 0; i < editor.nodes.length; i++) {
+				var node = editor.nodes[i];
+				var allconnected = true;
+				for (let value of node.outputs.values()) {
+					if (value.connections.length == 0) {
+						allconnected = false;
+					}
+				}
+				console.log('allconnected=>',allconnected);
+				if (!allconnected) {
+					$(node.vueContext.$el)
+					.css("background", "red")
+					.fadeOut(100)
+					.fadeIn(100)
+					.fadeOut(100)
+					.fadeIn(100);
+					// editor.trigger("addcomment", ("frame",  "Not connected", node));
+				}
+			}
+		});
+
+
+
+
+
+	</script>
+
+</body>
+</html>
