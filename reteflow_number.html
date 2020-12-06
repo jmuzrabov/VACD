@@ -75,8 +75,8 @@
 											<div class=" justify-content-around" >
 													<h2>Number</h2>
 												<div class="row">
-											    <div class="col-md-6" id="resultat">
-														<table border="1" ></table>
+											    <div class="col-md-4" id="resultat">
+														<table class="table table-striped table-bordered table-hover table-condensed" ></table>
 													</div><!-- #resultat -->
 											  </div>
 												<div class="row">
@@ -110,9 +110,12 @@
 														</select>
 													</div><!-- divGRAFIKLIST-->
 
-													<div class="col-md-3" id="dataPicker" style="display: flex;align-items: center;">
-														<input class="datepicker" data-date-format="yyyy-mm-dd">
-														<input type="time" name="time" id="time">
+													<div class="col-md-3" id="dataPicker" style="display: flex;align-items: start;flex-direction:column;">
+														<label for="selectCallflow">Datum</label>
+														<div class="row">
+															<input class="datepicker" data-date-format="yyyy-mm-dd">
+															<input type="time" name="time" id="time">
+														</div>
 													</div>
 													<div class="col-md-3" id="divHinzuBtn" style="display: flex;align-items: center;">
 														<input type="submit" class="btn btn-small btn-primary mt-3" id="hinzu" value="speichern" />
@@ -165,6 +168,48 @@
 	<script src="./js/jq/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
+
+	let systemGraphlist = [];
+	function saveTempCall(funktionsname, successfunction) {
+		let auth = window.localStorage.getItem("auth");
+		let graphid = window.localStorage['graphID'];
+		let number = window.localStorage['telNr'];
+		let inputData = $('.datepicker')[0].value;
+		let inputTime = $('#time')[0].value;
+		let startTS = inputData + ' ' + inputTime;
+		window.localStorage.setItem('graphDatum',startTS);
+		console.log('auth=>',auth);
+		console.log('graphid=>',graphid);
+		console.log('number=>',number);
+		console.log('startTS=>',startTS);
+		let graphlistitem = {};
+		$.ajax({
+			type:'POST',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			dataType: 'json',
+			data: {
+							auth:auth,
+							graphid: graphid,
+							number: number,
+							startTS:startTS
+						},
+			url: 'https://apiqa.yoummday.com/vacd/'+funktionsname,
+			success: function(result){
+					if ("error" in result) {
+						if (result["error"] == "auth") {
+							alert("WRONG AUTH");
+						}
+
+						console.log(result["error"]);
+						return;
+				}
+				successfunction(result);
+			},
+			error: function (e) {
+				console.log(e);
+			}
+		});
+	}
 
 	function backendCall(funktionsname, successfunction) {
 		$.ajax({
@@ -256,8 +301,7 @@
 				//Tabelle bauen
 				let table = $('#resultat table');
 				table.empty();
-				let auftragstabelle = $('#auftrag');
-				auftragstabelle.empty();
+
 				if(Object.keys(result).length > 0){
 
 					// nummer
@@ -271,6 +315,7 @@
 						let graph =routing["graph"];
 						// let graphname =routing["graph"]["name"];
 						let graphname = graph["name"];
+
 
 						console.log(number + ": " + graphname + " am " + lastupdate);
 						let tr = document.createElement('tr');
@@ -303,7 +348,9 @@
 					// auftrag -- erzeugt liste fuer temproutings
 					liste= result["temproutinglist"];
 
-
+					// let auftragstabelle = $('#auftrag');
+					// auftragstabelle.empty();
+					$('#liste').empty();
 					Object.keys(liste).forEach(routingids => {
 						let routing = liste[routingids];
 						// routing == id vom routingid
@@ -315,27 +362,77 @@
 						let graphname = graph["name"];
 						let graphid = graph["id"];
 
-						let tr = document.createElement('tr');
-						let tdTel = document.createElement('td');
-						tdTel.setAttribute('width','100%');
-						tdTel.setAttribute('style','font-weight:bold');
-						tdTel.append(number);
+						///////////////////////////////////////////////////////
+						let div = $('#liste');
+						let row = document.createElement('div');
+						row.setAttribute('class','row p-2');
 
-						let tdClf = document.createElement('td');
-						tdClf.setAttribute('width','100%');
-						tdClf.append(graphname);
+						let colmd3_1 = document.createElement('div');
+						colmd3_1.setAttribute('class','col-md-3');
+						colmd3_1.append(number);
 
-						let tdDate = document.createElement('td');
-						tdDate.setAttribute('width','100%');
-						tdDate.append(startTS);
-						tdDate.click(function() {
-							alert('test');
-						});
+						let colmd3_2 = document.createElement('div');
+						colmd3_2.setAttribute('class','col-md-3');
+						colmd3_2.append(graphname);
 
-						tr.append(tdTel);
-						tr.append(tdClf);
-						tr.append(tdDate);
-						auftragstabelle.append(tr);
+						let colmd3_3 = document.createElement('div');
+						colmd3_3.setAttribute('class','col-md-3');
+						colmd3_3.append(startTS);
+
+						let colmd1 = document.createElement('div');
+						colmd1.setAttribute('class','col-md-1');
+						// colmd1.setAttribute('id',routingid);
+						let a = document.createElement('a');
+						a.setAttribute('href','#');
+						a.setAttribute('data-form','{"graphid":'+ routingid +'}');
+						a.setAttribute('id',routingid);
+						let span = document.createElement('span');
+						span.setAttribute('data-icon','mdi-close-circle');
+						span.setAttribute('class','iconify alert-danger delet');
+						span.setAttribute('id',routingid);
+
+						a.append(span);
+						colmd1.append(a);
+
+						row.append(colmd3_1);
+						row.append(colmd3_2);
+						row.append(colmd3_3);
+						row.append(colmd1);
+
+						div.append(row);
+
+
+						///////////////////////////////////////////////////////
+
+						graphlistitem = {
+							fileID: routingid,
+							fileName: graphname,
+							fileTS: startTS
+							// deleteBtnId: fileName.split(/\s/).join('')
+						};
+						// console.log('soundlistitem=>', soundlistitem);
+						systemGraphlist.push(graphlistitem);
+						// let tr = document.createElement('tr');
+						// let tdTel = document.createElement('td');
+						// tdTel.setAttribute('width','100%');
+						// tdTel.setAttribute('style','font-weight:bold');
+						// tdTel.append(number);
+						//
+						// let tdClf = document.createElement('td');
+						// tdClf.setAttribute('width','100%');
+						// tdClf.append(graphname);
+						//
+						// let tdDate = document.createElement('td');
+						// tdDate.setAttribute('width','100%');
+						// tdDate.append(startTS);
+						// tdDate.click(function() {
+						// 	alert('test');
+						// });
+						//
+						// tr.append(tdTel);
+						// tr.append(tdClf);
+						// tr.append(tdDate);
+						// auftragstabelle.append(tr);
 
 
 
@@ -367,11 +464,80 @@
 
 
 
-			});//$.ajax
+			});
 
 
 
 	}
+
+	function saveTempCallflow(){
+		saveTempCall("temprouting",function(result){
+			console.log('result=>',result);
+
+				if(result.success == 1){
+					// alert('Danke Erfolgreich gespeichert!');
+					console.log('geklappt!');
+					// location.reload();
+						let number = window.localStorage['telNr'];
+						let graphname = window.localStorage['graphNAME'];
+						let startTS = window.localStorage['graphDatum'];
+						let graphId = window.localStorage['graphID'];
+
+						///////////////////////////////////////////////////////
+
+						let div = $('#liste');
+						let row = document.createElement('div');
+						row.setAttribute('class','row p-2');
+
+						let colmd3_1 = document.createElement('div');
+						colmd3_1.setAttribute('class','col-md-3');
+						colmd3_1.append(number);
+
+						let colmd3_2 = document.createElement('div');
+						colmd3_2.setAttribute('class','col-md-3');
+						colmd3_2.append(graphname);
+
+						let colmd3_3 = document.createElement('div');
+						colmd3_3.setAttribute('class','col-md-3');
+						colmd3_3.append(startTS);
+
+						let colmd1 = document.createElement('div');
+						colmd1.setAttribute('class','col-md-1');
+						let a = document.createElement('a');
+						a.setAttribute('href','#');
+						// a.setAttribute('data-form','{"graphid":'+ graphId +'}');
+						a.setAttribute('id',graphId);
+						let span = document.createElement('span');
+						span.setAttribute('data-icon','mdi-close-circle');
+						span.setAttribute('class','iconify alert-danger');
+
+						a.append(span);
+						colmd1.append(a);
+
+						row.append(colmd3_1);
+						row.append(colmd3_2);
+						row.append(colmd3_3);
+						row.append(colmd1);
+
+						div.append(row);
+
+
+						///////////////////////////////////////////////////////
+
+						window.localStorage.removeItem('graphDatum');
+						window.localStorage.removeItem('telNr');
+						$('.datepicker')[0].value = "";
+						$('#time')[0].value = "";
+						$('#grafikLIST2 option:selected').empty();
+						$('#selectTELNUMMER option:selected').empty();
+						location.reload();
+				}else{
+					console.log(result);
+				}
+			});
+	}
+
+
 
 	$(document).ready(function(){
 
@@ -380,91 +546,82 @@
 		$('#telNumber').click(loadNumberContent);
 		$('.datepicker').datepicker({dateFormat:'yy-mm-dd'});
 
+		//Telnummer Auswählen
+		$('#selectTelnummer').change(function(){
+			$('#selectTelnummer option:selected').each(function(){
+				console.log($(this).text());
+				let telNr = $(this).text();
+				window.localStorage.removeItem('telNr');
+				window.localStorage.setItem('telNr',telNr);
+			});
+		});
+
+		//Grafik Auswählen
+		$('#selectCallflow').change(function(){
+			$('#selectCallflow option:selected').each(function(){
+				console.log($(this).val());
+				let graphid = $(this).val();
+				let graphname = $(this).text();
+				window.localStorage.removeItem('graphID');
+				window.localStorage.removeItem('graphNAME');
+				window.localStorage.setItem('graphID',graphid);
+				window.localStorage.setItem('graphNAME',graphname);
+			});
+		});
+
 
 		//Neue Grafik für bestimmte Datum speichern
-		$('#hinzu').on('click',function(e){
+		$('#hinzu').click(saveTempCallflow);
 
-			let auth = window.localStorage.getItem("auth");
-			let graphid = window.localStorage['graphID'];
-			let num = window.localStorage['telNr'];
-			let inputData = $('.datepicker')[0].value;
-			let inputTime = $('#time')[0].value;
-			let startTS = inputData + ' ' + inputTime;
-			window.localStorage.setItem('graphDatum',startTS);
-			// console.log(inputData + ' ' + inputTime);
+		//Element löschen
+		$('#liste').on('click','.col-md-1 a',function(){
+			// console.log($(this)[0].parentElement.parentElement);
+			let parentElement = $(this)[0].parentElement.parentElement;
+			// console.log();
+			let graphid = $(this)[0].id;
+			let auth = window.localStorage['auth'];
+			let couserID = window.localStorage['couserID'];
 
-			// let startTS =
-					$.ajax({
-						type:'POST',
-						contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-						dataType: 'json',
-						data: {
-										auth:auth,
-										graphid: graphid,
-										number: num,
-										startTS:startTS
-									},
-						url: 'https://apiqa.yoummday.com/vacd/temprouting',
-						success: function(result){
-						console.log('result=>',result);
+			$('.modal').removeClass('d-none');
+			$('button[data-dismiss="modal"]').click(function(){
+					$('.modal').addClass('d-none');
+			});
+			//////////////////////////////////////////////////////////////////
+			$('#ja').click(function(){
+				$.ajax({
+					type: 'POST',
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+					dataType: "json",
+					data: {
+						auth:auth,
+						couser:couserID,
+						routingid:graphid
+					},
+						url: 'https://apiqa.yoummday.com/vacd/deletetemprouting',
 
-							if(result.success == 1){
-								// alert('Danke Erfolgreich gespeichert!');
-								console.log('geklappt!');
-								// location.reload();
+					success: function(data)
+					{
+						console.log('data=>',data);
+						parentElement.remove();
+						// console.log(parentElement);
+						$('.modal').addClass('d-none');
+						// console.log($(this).closest('li'));
+						location.reload();
+					},
+					error: function(error){
+						console.log(error);
+					}
+				});//$.ajax
 
-									let ul = $('#zettel');
-									let li = document.createElement('li');
-									let spanNr = document.createElement('span');
-									let spanName = document.createElement('span');
-									let spanDatum = document.createElement('span');
-									let spanIcon = document.createElement('span');
-									let input = document.createElement('input');
-									let label = document.createElement('label');
-
-									spanIcon.setAttribute('data-icon','mdi-close-circle');
-									spanIcon.setAttribute('class','iconify alert-danger');
-									label.setAttribute('class','delet');
-									label.setAttribute('for','delet');
-
-									input.setAttribute('class','del-item');
-									// input.setAttribute('id','delet');
-									input.setAttribute('type','submit');
-									input.setAttribute('style','display:none');
-
-									spanNr.append(window.localStorage['telNr']);
-									spanName.append(window.localStorage['graphNAME']);
-									spanDatum.append(window.localStorage['graphDatum']);
-									spanIcon.append(label);
-									spanIcon.append(input);
-
-									li.setAttribute('class','mb-3');
-									li.setAttribute('id',window.localStorage['graphID']);
-
-									li.append(spanNr);
-									li.append(spanName);
-									li.append(spanIcon);
-
-									ul.append(li);
-
-									window.localStorage.removeItem('graphDatum');
-									$('.datepicker')[0].value = "";
-									$('#time')[0].value = "";
-									$('#grafikLIST2 option:selected').empty();
-									$('#selectTELNUMMER option:selected').empty();
-
-							}else{
-								console.log(result);
-							}
-
-							},
-							error: function(error){
-								console.log('error=>',error);
-							}
-					});//$.ajax
-		});//$('#hinzufuegen').click
+			});//#ja
 
 
+
+
+
+
+
+		});
 
 
 

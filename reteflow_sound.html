@@ -380,39 +380,91 @@
 
 			});//$('#btnUPLOAD').click
 
-			$("#showSoundlist").click(function(){
-				// $("#showSoundlist").on('click', 'a[id^="deleteSnd_"]', function(){
-					const targetLinks = document.querySelectorAll('a[data-form]'); // querySelectorAll('a[id^="deleteSnd_"]')
-					for (let i = 0; i < targetLinks.length; i++) {
-						let soundid = $(targetLinks[i]).attr("id");
-						let soundelement = "#"+$(targetLinks[i]).attr("id");
-						$("#showSoundlist").on('click', soundelement, function(){
-							let index = systemSoundlist.findIndex(function(item, i){
-								return item.fileID === soundid;
-							});
-							console.log("searched index: "+index+ " for soundid: "+soundid);
-							$.ajax({
-								type: 'POST',
-								contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-								dataType: "json",
-								data: {
-									auth: window.localStorage['auth'],
-									soundid: soundid
-								},
+			// $("#showSoundlist").click(function(){
+			// 	// $("#showSoundlist").on('click', 'a[id^="deleteSnd_"]', function(){
+			// 		const targetLinks = document.querySelectorAll('a[data-form]'); // querySelectorAll('a[id^="deleteSnd_"]')
+			// 		for (let i = 0; i < targetLinks.length; i++) {
+			// 			let soundid = $(targetLinks[i]).attr("id");
+			// 			let soundelement = "#"+$(targetLinks[i]).attr("id");
+			// 			$("#showSoundlist").on('click', soundelement, function(){
+			// 				let index = systemSoundlist.findIndex(function(item, i){
+			// 					return item.fileID === soundid;
+			// 				});
+			// 				console.log("searched index: "+index+ " for soundid: "+soundid);
+			// 				$.ajax({
+			// 					type: 'POST',
+			// 					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			// 					dataType: "json",
+			// 					data: {
+			// 						auth: window.localStorage['auth'],
+			// 						soundid: soundid
+			// 					},
+			// 					url: 'https://apiqa.yoummday.com/vacd/deletesound',
+			// 					success: function(data)
+			// 					{
+			// 						// console.log('data=>',data);
+			// 						console.log('Erfolgreich gelöscht!');
+			// 						systemSoundlist.splice(index, 1);
+			// 						location.reload();
+			// 					},
+			// 					error: function(error){
+			// 						console.log(error);
+			// 					}
+			// 				});
+			// 			});
+			// 		}
+			// 	});
+
+				//Element löschen
+				$('#showSoundlist').on('click','.col-md-1 a',function(e){
+					e.preventDefault();
+					// console.log($(this)[0].parentElement.parentElement);
+					let parentElement = $(this)[0].parentElement.parentElement;
+					// console.log(parentElement);
+					let soundid = $(this)[0].attributes['data-form'].value.replace('{"soundid":','').replace('}','');
+
+					// console.log(soundid);
+
+					let auth = window.localStorage['auth'];
+					// console.log(auth);
+					$('.modal').removeClass('d-none');
+					$('button[data-dismiss="modal"]').click(function(){
+							$('.modal').addClass('d-none');
+					});
+					//////////////////////////////////////////////////////////////////
+					$('#ja').click(function(){
+						$.ajax({
+							type: 'POST',
+							contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+							dataType: "json",
+							data: {
+								auth:auth,
+								soundid:soundid
+							},
 								url: 'https://apiqa.yoummday.com/vacd/deletesound',
-								success: function(data)
-								{
-									// console.log('data=>',data);
-									console.log('Erfolgreich gelöscht!');
-									systemSoundlist.splice(index, 1);
-									location.reload();
-								},
-								error: function(error){
-									console.log(error);
-								}
-							});
-						});
-					}
+
+							success: function(data)
+							{
+								console.log('data=>',data);
+								parentElement.remove();
+								// console.log(parentElement);
+								$('.modal').addClass('d-none');
+								// console.log($(this).closest('li'));
+								location.reload();
+							},
+							error: function(error){
+								console.log(error);
+							}
+						});//$.ajax
+
+					});//#ja
+
+
+
+
+
+
+
 				});
 
 
