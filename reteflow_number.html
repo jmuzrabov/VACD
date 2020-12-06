@@ -196,8 +196,26 @@
 			url: 'https://apiqa.yoummday.com/vacd/'+funktionsname,
 			success: function(result){
 					if ("error" in result) {
+						console.log(result["error"]);
+						let row = $('#liste');
+						let divColMd6 = document.createElement('div');
+						divColMd6.setAttribute('class','col-md-6');
+						divColMd6.setAttribute('class','offset-md-3');
+
+						let divColAuto = document.createElement('div');
+						divColAuto.setAttribute('class','col-auto');
+
+						let divAlert = document.createElement('div');
+						divAlert.setAttribute('class','alert alert-danger');
+
 						if (result["error"] == "auth") {
-							alert("WRONG AUTH");
+
+							divAlert.append('WRONG AUTH');
+							divColAuto.append(divAlert);
+							divColMd6.append(divColAuto);
+							row.append(divColMd6);
+
+							// alert("WRONG AUTH");
 						}
 
 						console.log(result["error"]);
@@ -222,9 +240,24 @@
 						},
 			url: 'https://apiqa.yoummday.com/vacd/'+funktionsname,
 			success: function(result) {
+				let row = $('header .row');
 				if ("error" in result) {
 					if (result["error"] == "auth") {
-						alert("WRONG AUTH");
+
+						let divColMd6 = document.createElement('div');
+						divColMd6.setAttribute('class','col-md-6');
+						divColMd6.setAttribute('class','offset-md-3');
+
+						let divColAuto = document.createElement('div');
+						divColAuto.setAttribute('class','col-auto');
+
+						let divAlert = document.createElement('div');
+						divAlert.setAttribute('class','alert alert-danger');
+						divAlert.append('WRONG AUTH');
+
+						divColAuto.append(divAlert);
+						divColMd6.append(divColAuto);
+						row.append(divColMd6);
 					}
 
 					console.log(result["error"]);
@@ -317,15 +350,15 @@
 						let graphname = graph["name"];
 
 
-						console.log(number + ": " + graphname + " am " + lastupdate);
+						// console.log(number + ": " + graphname + " am " + lastupdate);
 						let tr = document.createElement('tr');
 						let tdTel = document.createElement('td');
-						tdTel.setAttribute('width','100%');
+						// tdTel.setAttribute('width','100%');
 						tdTel.setAttribute('style','font-weight:bold');
 						tdTel.append(number);
 
 						let tdClf = document.createElement('td');
-						tdClf.setAttribute('width','100%');
+						// tdClf.setAttribute('width','100%');
 						tdClf.append(graphname);
 
 
@@ -384,7 +417,7 @@
 						// colmd1.setAttribute('id',routingid);
 						let a = document.createElement('a');
 						a.setAttribute('href','#');
-						a.setAttribute('data-form','{"graphid":'+ routingid +'}');
+						// a.setAttribute('data-form','{"graphid":'+ routingid +'}');
 						a.setAttribute('id',routingid);
 						let span = document.createElement('span');
 						span.setAttribute('data-icon','mdi-close-circle');
@@ -528,9 +561,10 @@
 						window.localStorage.removeItem('telNr');
 						$('.datepicker')[0].value = "";
 						$('#time')[0].value = "";
-						$('#grafikLIST2 option:selected').empty();
-						$('#selectTELNUMMER option:selected').empty();
-						location.reload();
+						console.log($('#selectCallflow option:selected'));
+						// $('#selectCallflow option:selected').empty();
+						// $('#selectTelnummer option:selected').empty();
+						// location.reload();
 				}else{
 					console.log(result);
 				}
@@ -606,7 +640,7 @@
 						// console.log(parentElement);
 						$('.modal').addClass('d-none');
 						// console.log($(this).closest('li'));
-						location.reload();
+						// location.reload();
 					},
 					error: function(error){
 						console.log(error);
