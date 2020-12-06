@@ -171,7 +171,7 @@
 													});
 												}
 												if(couserLenght === 1){
-														window.location.href = '/VACD/reteflow.html';
+														window.location.href = '/VACD/reteflow_number.html';
 														window.localStorage.setItem('fullaccess',fullaccess);
 												}else{
 													window.location.href = '/VACD/menu.html';
@@ -196,7 +196,22 @@
 									console.log(error);
 								}
 							});//$.ajax
-
+							// $.ajax({
+							// 	type: 'POST',
+							// 	contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+							// 	dataType: "json",
+							// 	data: window.localStorage['auth'],
+							// 	url: 'https://apiqa.yoummday.com/vacd/couserlist',
+							// 	success: function(responsedata){
+							// 		console.log('responsedata=>',responsedata);
+							// 		// window.localStorage.setItem('couserlist',);
+							//
+							// 	},
+							// 	error: function(error){
+							// 		console.log(error);
+							// 	}
+							// });//$.ajax
+						// console.log (JSON.stringify(loginData));
 					});//$("#loginvacd").click
 
 			});//$(document).ready(function ()
